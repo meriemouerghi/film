@@ -1,0 +1,1024 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~     This file is part of "ShowCase" formerly Movie DB. <https://github.com/WirelessAlien/MovieDB>
+  ~     forked from <https://notabug.org/nvb/MovieDB>
+  ~
+  ~     Copyright (C) 2024  WirelessAlien <https://github.com/WirelessAlien>
+  ~
+  ~     ShowCase is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     ShowCase is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with "ShowCase".  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.wirelessalien.android.moviedb.activity.DetailActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            app:scrimAnimationDuration="@integer/material_motion_duration_long_1"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:titleEnabled="false">
+
+            <ImageView
+                android:id="@+id/movieImage"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="70dp"
+                app:cardCornerRadius="5dp"
+                app:layout_collapseMode="parallax">
+
+                <ImageView
+                    android:id="@+id/moviePoster"
+                    android:layout_width="125dp"
+                    android:layout_height="200dp"
+                    android:contentDescription="@string/image_description"
+                    android:scaleType="fitXY" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/transparent"
+                app:layout_collapseMode="pin" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.wirelessalien.android.moviedb.view.NotifyingScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp">
+
+            <RelativeLayout
+                android:id="@+id/movieDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="16dp">
+
+                <LinearLayout
+                    android:id="@+id/showDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/movieTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tagline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+
+                    <HorizontalScrollView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="none"
+                        android:scrollIndicators="none">
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/genreChipGroup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:singleLine="true"
+                            app:singleSelection="false"
+                            app:chipSpacing="5dp"/>
+                    </HorizontalScrollView>
+
+                    <com.google.android.flexbox.FlexboxLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="-8dp"
+                        app:flexDirection="row"
+                        app:flexWrap="wrap">
+
+                        <TextView
+                            android:id="@+id/movieStartDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            app:drawableLeftCompat="@drawable/ic_dot"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/movieFinishDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:visibility="gone"
+                            app:drawableLeftCompat="@drawable/ic_dot" />
+
+                        <TextView
+                            android:id="@+id/movieRewatched"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:drawableLeftCompat="@drawable/ic_dot"
+                            android:layout_centerVertical="true"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/movieRating"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:drawableLeftCompat="@drawable/ic_dot"
+                            android:layout_centerVertical="true"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/movieEpisodes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            app:drawableLeftCompat="@drawable/ic_dot"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/movieReviewText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:drawableLeftCompat="@drawable/ic_dot"
+                            android:visibility="gone" />
+                    </com.google.android.flexbox.FlexboxLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/editShowDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <GridLayout
+                        android:id="@+id/dateDetailsLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="1"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                            android:layout_gravity="fill"
+                            android:hint="@string/show_category">
+
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                android:id="@+id/categories"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="10dp"
+                                android:inputType="none"
+                                android:focusable="false"
+                                android:clickable="true"
+                                android:entries="@array/categories" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <GridLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:columnCount="2"
+                            android:layout_marginTop="5dp"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/startDateButton"
+                                style="@style/Widget.Material3.Button.OutlinedButton"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_columnWeight="1"
+                                android:layout_gravity="fill"
+                                app:cornerRadius="5dp"
+                                android:layout_marginEnd="5dp"
+                                android:drawableEnd="@drawable/ic_calendar"
+                                android:drawablePadding="5dip"
+                                android:onClick="showDateSelectionDialog"
+                                android:tag="start_date" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/endDateButton"
+                                style="@style/Widget.Material3.Button.OutlinedButton"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_columnWeight="1"
+                                android:layout_gravity="fill"
+                                android:layout_marginStart="5dp"
+                                app:cornerRadius="5dp"
+                                android:drawableEnd="@drawable/ic_calendar"
+                                android:drawablePadding="5dp"
+                                android:onClick="showDateSelectionDialog"
+                                android:tag="end_date" />
+                        </GridLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="fill"
+                            android:hint="@string/change_watched_times"
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/timesWatched"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:digits="0123456789"
+                                android:gravity="center_vertical"
+                                android:inputType="number"
+                                android:text="@string/times_watched_default" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:cardCornerRadius="5dp"
+                            android:layout_marginTop="10dp"
+                            app:strokeWidth="2dp"
+                            style="@style/Widget.Material3.CardView.Outlined">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/ratingText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:padding="10dp"
+                                android:layout_marginStart="6dp"
+                                android:text="@string/rating"/>
+
+                            <com.google.android.material.slider.Slider
+                                android:id="@+id/showRating"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_toEndOf="@+id/ratingText"
+                                android:valueFrom="0.0"
+                                android:paddingTop="5dp"
+                                android:layout_marginStart="-10dp"
+                                android:paddingBottom="5dp"
+                                android:valueTo="10.0"
+                                android:stepSize="0.1"
+                                android:value="0.0"/>
+                        </RelativeLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="fill"
+                            android:layout_marginTop="5dp"
+                            android:hint="@string/review">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/movieReview"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:inputType="text|textMultiLine"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </GridLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/editIcon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/edit_icon_description"
+                android:layout_below="@+id/movieDetails"
+                app:cornerRadius="5dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="10dp"
+                style="@style/Widget.Material3.Button.ElevatedButton"
+                app:icon="@drawable/ic_edit"
+                android:text="@string/edit"
+                android:visibility="gone"/>
+
+            <RelativeLayout
+                android:id="@+id/movieDetailsRl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editIcon"
+                android:layout_marginStart="11dip"
+                android:layout_marginBottom="10dp">
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none"
+                    android:layout_marginEnd="16dp"
+                    android:scrollIndicators="none"
+                    tools:ignore="UselessParent">
+
+                    <LinearLayout
+                        android:id="@+id/movieDetailsRl2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/certificationCv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="3dp"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_marginStart="4dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/certification"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:text="@string/not_rated" />
+
+                            <TextView
+                                android:id="@+id/certificationT"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:alpha="0.7"
+                                android:text="@string/certification"
+                                android:textSize="10sp" />
+                        </LinearLayout>
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_gravity="center_vertical"/>
+
+                        <LinearLayout
+                            android:id="@+id/ratingCv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="3dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/rating"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:text="7.6/10" />
+
+                            <TextView
+                                android:id="@+id/ratingT"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="10sp"
+                                android:alpha="0.7"
+                                android:layout_gravity="center_horizontal"
+                                android:text="@string/rating1" />
+                        </LinearLayout>
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_gravity="center_vertical"/>
+
+                        <LinearLayout
+                            android:id="@+id/releaseDateCv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="3dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/releaseDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:text="@string/unknown" />
+
+                            <TextView
+                                android:id="@+id/releaseDateT"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="10sp"
+                                android:alpha="0.7"
+                                android:layout_gravity="center_horizontal"
+                                android:text="@string/release_date" />
+                        </LinearLayout>
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_gravity="center_vertical"/>
+
+                        <LinearLayout
+                            android:id="@+id/runtimeCv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="3dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/runtime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:text="00h 00m" />
+
+                            <TextView
+                                android:id="@+id/runtimeT"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="10sp"
+                                android:alpha="0.7"
+                                android:layout_gravity="center_horizontal"
+                                android:text="@string/runtime" />
+                        </LinearLayout>
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_gravity="center_vertical"/>
+
+                        <LinearLayout
+                            android:id="@+id/popularityCv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="3dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/popularityText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:text="76.594" />
+
+                            <TextView
+                                android:id="@+id/popularityTextT"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="10sp"
+                                android:alpha="0.7"
+                                android:layout_gravity="center_horizontal"
+                                android:text="@string/popularity" />
+                        </LinearLayout>
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_gravity="center_vertical"/>
+
+                        <LinearLayout
+                            android:id="@+id/languageCv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="3dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/languageText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:text="English" />
+
+                            <TextView
+                                android:id="@+id/languageTextT"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="10sp"
+                                android:alpha="0.7"
+                                android:layout_gravity="center_horizontal"
+                                android:text="@string/language" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/dividerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/movieDetailsRl">
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/firstDivider"
+                    android:layout_width="0dp"
+                    android:layout_height="3dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@id/imageView"
+                    android:layout_marginStart="5dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"/>
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="60dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/ic_tmdb_long"
+                    android:layout_marginStart="15dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+
+            <HorizontalScrollView
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dividerLayout"
+                android:scrollbars="none">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="2dp">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/watchListButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/watchlist"
+                        app:iconGravity="textTop"
+                        style="@style/Widget.Material3.Button.IconButton"
+                        app:icon="@drawable/ic_bookmark" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/addToList"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:icon="@drawable/ic_list_add"
+                        app:iconGravity="textTop"
+                        style="@style/Widget.Material3.Button.IconButton"
+                        android:text="@string/add_to_list"
+                        android:contentDescription="@string/add_to_list" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/favouriteButton"
+                        android:text="@string/favourite"
+                        app:iconGravity="textTop"
+                        style="@style/Widget.Material3.Button.IconButton"
+                        app:icon="@drawable/ic_favorite"
+                        android:contentDescription="@string/add_to_favourite" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/ratingBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:icon="@drawable/ic_thumb_up"
+                        app:iconGravity="textTop"
+                        style="@style/Widget.Material3.Button.IconButton"
+                        android:text="@string/rate"
+                        android:contentDescription="@string/add_rating" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/overviewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/linearLayout"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/overview"
+                android:layout_marginBottom="3dp"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/forthDivider"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@id/overviewTitle"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"/>
+
+            <TextView
+                android:id="@+id/movieDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/forthDivider"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="16dp"/>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_below="@id/movieDescription">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/moreImageBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cornerRadius="5dp"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:text="@string/image"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/watchProvider"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cornerRadius="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_toEndOf="@id/trailer"
+                    android:text="@string/where_to_watch"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/trailer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cornerRadius="5dp"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_toEndOf="@id/moreImageBtn"
+                    android:text="@string/trailer"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/episodeRL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relativeLayout3">
+
+                <TextView
+                    android:id="@+id/episodeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_centerVertical="true"
+                    android:text="@string/episodes"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/allEpisodeBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="16dp"
+                    app:cornerRadius="5dp"
+                    style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+                    app:icon="@drawable/ic_read_more"/>
+            </RelativeLayout>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/episodeViewPager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/episodeRL"/>
+
+            <TextView
+                android:id="@+id/castTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/episodeViewPager"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:text="@string/cast_title"
+                android:layout_marginBottom="3dp"
+                android:textStyle="bold"
+                android:textSize="16sp" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/secondDivider"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@id/castTitle"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/castRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/secondDivider"
+                android:scrollbars="none" />
+
+            <TextView
+                android:id="@+id/crewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/castRecyclerView"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:text="@string/crew_title"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/thirdDivider"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@id/crewTitle"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/crewRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/thirdDivider"
+                android:scrollbars="none" />
+
+            <TextView
+                android:id="@+id/similarMovieTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/crewRecyclerView"
+                android:layout_marginEnd="16dp"
+                android:paddingTop="16dp"
+                android:paddingStart="16dp"
+                android:textStyle="bold"
+                android:layout_marginBottom="3dp"
+                android:text="@string/recommendations_title"
+                android:textSize="16sp" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/seventhDivider"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@id/similarMovieTitle"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/movieRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="6dp"
+                android:layout_below="@id/seventhDivider"
+                android:scrollbars="none" />
+
+            <TextView
+                android:id="@+id/linkLTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/movieRecyclerView"
+                android:layout_marginEnd="16dp"
+                android:paddingTop="16dp"
+                android:paddingStart="16dp"
+                android:layout_marginBottom="3dp"
+                android:textStyle="bold"
+                android:text="@string/links"
+                android:textSize="16sp" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/linkRlDivider1"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@id/linkLTitle"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"/>
+
+            <RelativeLayout
+                android:id="@+id/linkRL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="16dp"
+                android:layout_below="@id/linkRlDivider1">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/searchBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/imdbBtn"
+                    app:icon="@drawable/ic_explore"
+                    android:text="@string/search"
+                    app:iconGravity="top"
+                    style="@style/Widget.Material3.Button.IconButton"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/imdbBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/homepage"
+                    app:iconGravity="top"
+                    android:text="Imdb"
+                    app:icon="@drawable/ic_open_in_new"
+                    style="@style/Widget.Material3.Button.IconButton"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/homepage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/homepage"
+                    app:iconGravity="top"
+                    app:icon="@drawable/ic_house"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_alignParentStart="true"/>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/otherText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/other_details"
+                android:paddingStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="3dp"
+                android:layout_below="@id/linkRL"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/sixthDivider"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@id/otherText"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"/>
+
+            <TextView
+                android:id="@+id/counrtyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/country"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="10dp"
+                android:layout_below="@id/sixthDivider"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/countryDataText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="USA"
+                android:paddingStart="16dp"
+                android:layout_below="@id/counrtyText"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/revenueText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/revenue"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="10dp"
+                android:layout_below="@id/countryDataText"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/revenueDataText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/revenue"
+                android:paddingStart="16dp"
+                android:layout_below="@id/revenueText"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/statusText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/status"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="10dp"
+                android:layout_below="@id/revenueDataText"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/statusDataText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/status"
+                android:paddingStart="16dp"
+                android:layout_below="@id/statusText"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/keywordText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/keywords"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="10dp"
+                android:layout_below="@id/statusDataText"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/keywordsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="11dp"
+                android:layout_marginBottom="20dp"
+                android:layout_below="@id/keywordText"
+                app:flexWrap="wrap"
+                app:justifyContent="flex_start"/>
+        </RelativeLayout>
+    </com.wirelessalien.android.moviedb.view.NotifyingScrollView>
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        app:waveAmplitude="10dp"
+        app:wavelength="32dp"
+        app:waveSpeed="0dp"
+        android:indeterminate="true"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/share_link_button"
+        android:src="@drawable/ic_share"
+        app:layout_behavior="com.google.android.material.floatingactionbutton.FloatingActionButton$Behavior"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_anchor="@id/movieImage"
+        app:layout_anchorGravity="bottom|end"
+        android:contentDescription="@string/save_to_database"
+        android:src="@drawable/ic_star_border" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
